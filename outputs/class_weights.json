@@ -1,0 +1,21 @@
+{
+  "diagnosis_1": {
+    "Benign": 1.178954,
+    "Indeterminate": 14.014981,
+    "Malignant": 0.480668
+  },
+  "dx": {
+    "AKIEC": 1.567658,
+    "BCC": 0.18878,
+    "BEN_OTH": 10.630682,
+    "BKL": 0.876757,
+    "DF": 9.194103,
+    "INF": 9.449495,
+    "MAL_OTH": 56.69697,
+    "MEL": 1.063068,
+    "NV": 0.63944,
+    "SCCKA": 1.003486,
+    "VASC": 10.30854
+  },
+  "formula": "n_samples / (n_classes * count_per_class), train split only"
+}

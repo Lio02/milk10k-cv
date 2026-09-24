@@ -1,0 +1,14 @@
+{
+  "mean": [
+    0.685664,
+    0.5234,
+    0.47333
+  ],
+  "std": [
+    0.123687,
+    0.131359,
+    0.150879
+  ],
+  "computed_on": "train split, all images (both views), after Resize(256) + CenterCrop(224), pixel values in [0, 1]",
+  "n_images": 7484
+}
