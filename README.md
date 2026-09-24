@@ -89,3 +89,7 @@ Full reasoning: [reports/milestone1_report.md](reports/milestone1_report.md).
 - **Augmentation:** random crop (scale 0.8–1), flips, 90° rotations, mild ColorJitter (brightness/contrast 0.1, hue 0.02). Hue is kept below the Benign/Malignant colour gap measured in A3.5.
 - **Imbalance:** 29 : 1 on train (Malignant vs Indeterminate). `WeightedRandomSampler` by default, or class-weighted loss (`outputs/class_weights.json`), not both.
 - **Metrics:** balanced accuracy and Malignant recall, evaluated per lesion. The dataset is biopsy-enriched (69 % malignant), so accuracy and precision do not transfer to clinics.
+
+## AI use
+
+AI (Claude) was used to explain the assignment, help write the code and polish the submission file.
