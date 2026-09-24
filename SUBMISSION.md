@@ -1,6 +1,6 @@
 # Submission — Milestone 1 (MILK10k)
 
-- **Name:** YOUR NAME
+- **Name:** Alexander Nakashidze
 - **Repository:** https://github.com/Lio02/milk10k-cv
 
 ## Deliverables
