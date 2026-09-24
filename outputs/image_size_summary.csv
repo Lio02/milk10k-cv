@@ -1,0 +1,8 @@
+,width,height
+min,600.0,450.0
+median,600.0,450.0
+max,600.0,450.0
+n_images,10480.0,10480.0
+n_unreadable,0.0,0.0
+share_short_side_ge_224,1.0,1.0
+share_short_side_ge_256,1.0,1.0
