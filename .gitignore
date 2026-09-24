@@ -1,0 +1,21 @@
+# Python / environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Data: images and raw CSVs live outside the repo (see MILK10K_DIR)
+data/
+images/
+*.jpg
+*.jpeg
+*.png.tmp
+*.zip
+
+# OS
+.DS_Store
+
+# Large generated caches
+outputs/cache/
