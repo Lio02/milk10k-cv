@@ -43,7 +43,7 @@ def main():
     n = len(lesions)
     sizes = pd.DataFrame({name: [len(ids[name]), len(ids[name]) / n, len(df)] for name, df in splits.items()},
                          index=["lesions", "share", "images"]).T
-    print(sizes.to_string(formatters={"share": "{:.1%}".format}), "\n")
+    print(sizes.to_string(formatters={"lesions": "{:.0f}".format, "share": "{:.1%}".format, "images": "{:.0f}".format}), "\n")
 
     global_dx = lesions.dx.value_counts(normalize=True)
     dx_props = pd.DataFrame({name: lesions[lesions.lesion_id.isin(ids[name])].dx.value_counts(normalize=True)
