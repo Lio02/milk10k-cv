@@ -3,6 +3,7 @@ import math
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 
 def show_grid(images, titles=None, ncols=4, size=2.5):
@@ -28,7 +29,8 @@ def show_grid(images, titles=None, ncols=4, size=2.5):
 
 def plot_class_balance(series, log=False, title=None, ax=None):
     """Bar chart of class counts. `series` is a column of labels or a value_counts() result."""
-    counts = series if series.dtype.kind in "iu" and series.index.dtype == object else series.value_counts()
+    already_counts = pd.api.types.is_numeric_dtype(series) and not isinstance(series.index, pd.RangeIndex)
+    counts = series if already_counts else series.value_counts()
     counts = counts.sort_values(ascending=False)
     if ax is None:
         fig, ax = plt.subplots(figsize=(max(4, 0.6 * len(counts) + 2), 3.5))
