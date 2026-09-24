@@ -7,8 +7,10 @@ Normalisation statistics come from outputs/norm_stats.json (computed on the TRAI
 scripts/compute_stats.py). If that file does not exist yet, ImageNet statistics are used.
 """
 import json
+import random
 
 import torchvision.transforms as T
+from PIL import Image
 
 from src import config
 
@@ -28,12 +30,26 @@ MEAN, STD = load_norm_stats()
 SIZE = config.IMG_SIZE
 
 
+class RandomRotate90:
+    """Rotate by 0, 90, 180 or 270 degrees. Unlike RandomRotation(180) this never creates black corners,
+    which would be an artefact that only training images have."""
+
+    ROTATIONS = [None, Image.Transpose.ROTATE_90, Image.Transpose.ROTATE_180, Image.Transpose.ROTATE_270]
+
+    def __call__(self, img):
+        op = random.choice(self.ROTATIONS)
+        return img if op is None else img.transpose(op)
+
+    def __repr__(self):
+        return "RandomRotate90()"
+
+
 def train_transform_steps(mean=MEAN, std=STD):
     return [
         T.RandomResizedCrop(SIZE, scale=(0.8, 1.0)),          # small zoom / crop jitter
         T.RandomHorizontalFlip(p=0.5),
         T.RandomVerticalFlip(p=0.5),
-        T.RandomRotation(180),                                # lesions have no orientation
+        RandomRotate90(),                                     # lesions have no orientation
         T.ColorJitter(brightness=0.1, contrast=0.1, hue=0.02),  # mild: colour is diagnostic (A3.5)
         T.ToTensor(),
         T.Normalize(mean, std),
@@ -62,7 +78,7 @@ AUGMENTATION_TABLE = [
     ("RandomResizedCrop", "224, scale=(0.8, 1.0)", "keeps ≥ 80 % of the image, the lesion stays in view; mimics distance/zoom differences"),
     ("RandomHorizontalFlip", "p=0.5", "lesions have no left/right orientation in the image"),
     ("RandomVerticalFlip", "p=0.5", "lesions have no up/down orientation in the image"),
-    ("RandomRotation", "±180°", "the camera can be held at any angle; shape and pattern are rotation-invariant"),
+    ("RandomRotate90", "0/90/180/270°", "the camera can be held at any angle; with the flips this covers all 8 orientations and adds no black corners"),
     ("ColorJitter", "brightness=0.1, contrast=0.1", "mimics lighting/camera differences; the classes barely differ in brightness (A3.5)"),
     ("ColorJitter", "hue=0.02 (≈ ±7°, avg 3°)", "smaller than the ≈ 9° Benign/Malignant hue gap measured in A3.5; stronger hue shifts are NOT used"),
 ]
