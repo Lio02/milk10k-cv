@@ -1,7 +1,7 @@
 # Submission — Milestone 1 (MILK10k)
 
 - **Name:** YOUR NAME
-- **Repository:** https://github.com/YOUR-USERNAME/milk10k-cv
+- **Repository:** https://github.com/Lio02/milk10k-cv
 
 ## Deliverables
 
