@@ -14,11 +14,31 @@ clinical close-up image per lesion. Labels: `diagnosis_1` (3 classes) and an 11-
 
 ## 2. Setup and run
 
-TODO
+Python 3.11.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate            # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+# Point the code at the data folder (never hard-coded in the code)
+export MILK10K_DIR=~/data/milk10k    # folder containing metadata.csv, images/, supplements/training_gt.csv
+```
+
+Run order (every script writes only to `outputs/`):
+
+```bash
+python scripts/check_integrity.py    # B1
+python scripts/eda.py                # B2
+python scripts/quality_report.py     # B4
+python scripts/make_splits.py        # B5
+python scripts/compute_stats.py      # B6/B8: norm stats + class weights
+pytest tests/                        # unit tests
+```
 
 ## 3. Repository structure
 
-TODO
+TODO (tree)
 
 ## 4. Data handling
 
