@@ -58,6 +58,38 @@ def filter_available(df: pd.DataFrame, strict: bool = True, id_col: str = "isic_
     return df.loc[exists].copy()
 
 
-def build_lesion_table(meta: pd.DataFrame) -> pd.DataFrame:
-    """One row per lesion. Filled in during exercise A1.3."""
-    raise NotImplementedError
+LESION_COLS = ["age_approx", "sex", "anatom_site_general", "diagnosis_1", "diagnosis_2",
+               "diagnosis_3", "diagnosis_confirm_type"]
+
+
+def build_lesion_table(meta: pd.DataFrame, gt: pd.DataFrame | None = None) -> pd.DataFrame:
+    """Return one row per lesion (5,240 rows).
+
+    Columns: lesion_id, derm_id, clinical_id (the isic_id of each view), the lesion-level
+    metadata in LESION_COLS and the 11-class label `dx` from training_gt.csv.
+    """
+    if gt is None:
+        gt = load_gt()
+    wide = meta.pivot(index="lesion_id", columns="image_type", values="isic_id")
+    wide = wide.rename(columns={config.DERM: "derm_id", config.CLINICAL: "clinical_id"})
+    wide = wide[["derm_id", "clinical_id"]]
+    wide.columns.name = None
+
+    fields = meta.groupby("lesion_id")[LESION_COLS].first()
+    dx = gt.set_index("lesion_id")[config.CLASSES].idxmax(axis=1).rename("dx")
+    table = wide.join(fields).join(dx).reset_index()
+
+    assert table.lesion_id.is_unique
+    assert table[["derm_id", "clinical_id"]].notna().all().all(), "some lesions lack one of the two views"
+    return table
+
+
+def image_table(lesions: pd.DataFrame) -> pd.DataFrame:
+    """Expand a lesion table into one row per image (isic_id, image_type + all lesion columns)."""
+    parts = []
+    for col, itype in [("derm_id", config.DERM), ("clinical_id", config.CLINICAL)]:
+        part = lesions.drop(columns=["derm_id", "clinical_id"]).copy()
+        part.insert(1, "isic_id", lesions[col].values)
+        part.insert(2, "image_type", itype)
+        parts.append(part)
+    return pd.concat(parts, ignore_index=True).sort_values(["lesion_id", "image_type"], ignore_index=True)
