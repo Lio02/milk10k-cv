@@ -5,6 +5,7 @@ Writes: outputs/figures/augmentations.png   3 classes x (1 original + 7 augmente
         outputs/figures/batch_check.png     16 transformed train images with their labels
         outputs/pipeline_check.txt          sanity prints (shapes, dtype, ranges, label histogram, epoch time)
 """
+import random
 import sys
 import time
 from collections import Counter
@@ -39,6 +40,7 @@ def augmentation_figure():
     derm = train[train.image_type == config.DERM]
     aug = T.Compose(train_transform_steps()[:-2])   # all augmentations, without ToTensor/Normalize
     torch.manual_seed(config.SEED)
+    random.seed(config.SEED)
     images, titles = [], []
     for dx in ["BCC", "MEL", "DF"]:
         isic_id = derm[derm.dx == dx].isic_id.iloc[0]

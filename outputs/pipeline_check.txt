@@ -4,5 +4,5 @@ train batch: x (32, 3, 224, 224) torch.float32, min -5.54, max 3.63, mean -0.109
 val batch:   x (32, 3, 224, 224) torch.float32, min -5.54, max 3.51
 label histogram over 20 train batches (sampler): {'Benign': '206 (32%)', 'Indeterminate': '219 (34%)', 'Malignant': '215 (34%)'}
 label share in the train split itself:         {'Benign': '28%', 'Indeterminate': '2%', 'Malignant': '69%'}
-one full train epoch: 7484 images in 32.4 s (batch_size=32, num_workers=2)
+one full train epoch: 7484 images in 32.9 s (batch_size=32, num_workers=2)
 saved outputs/figures/batch_check.png
