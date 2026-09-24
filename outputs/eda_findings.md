@@ -1,0 +1,10 @@
+# EDA findings (B2)
+
+| Session 2 finding                          | Still true on the full data?                                                                                     | Consequence                                                                                  |
+|:-------------------------------------------|:-----------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------|
+| Malignant lesions come from older patients | yes — median age Malignant 65, Indeterminate 70, Benign 55                                                       | age is a real signal, but the model must not rely on it alone (images only as input for now) |
+| File size differs by class (A2.2c)         | no — AUC dermoscopic 0.48, clinical 0.51 (all images 600×450)                                                    | no measurable shortcut in this copy, but still resize all images and never use file size     |
+| Colour differs by class                    | yes, slightly — red/green ratio Benign 1.191 vs Malignant 1.225                                                  | keep hue augmentation mild (hue ≤ 0.02, see A3.5)                                            |
+| image_manipulation is linked to class      | yes — 'altered' share ranges from 0.0% to 18.2% by class; Malignant share 47% (altered) vs 70% (instrument only) | do not use image_manipulation as an input                                                    |
+| Anatomical site often missing              | yes — 37% of lesions; class mix differs when missing (more NV)                                                   | treat 'missing' as its own category if site is ever used; never drop these lesions           |
+| Men have a higher malignant share          | yes — 72% (male) vs 65% (female)                                                                                 | check performance per sex later (subgroup bias)                                              |
